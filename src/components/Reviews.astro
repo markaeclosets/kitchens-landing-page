@@ -1,0 +1,28 @@
+<div id='reviews'></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const reviews = document.getElementById('reviews')
+    if (!reviews) return
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const script = document.createElement('script')
+            script.defer = true
+            script.async = true
+            script.src = 'https://cdn.trustindex.io/loader.js?b10ade4307e5004e70069cb646b'
+            document.body.appendChild(script)
+            observer.unobserve(reviews)
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    )
+    observer.observe(reviews)
+  })
+</script>

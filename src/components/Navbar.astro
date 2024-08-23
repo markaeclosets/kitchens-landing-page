@@ -1,0 +1,28 @@
+---
+import CldImage from './CldImage.astro'
+import MobileNavButton from './MobileNavButton.astro'
+---
+
+<nav class='flex justify-between items-center py-8'>
+  <a class='text-gray-600 text-2xl leading-none' href='#'>
+    <CldImage
+      class='invert pt-4 fadeInUp-animation'
+      public_id='web/markae-closets-white-logo_yuzdeg'
+      alt='Astro Logo'
+      height='60'
+      width='287'
+      loading={'eager'}
+    />
+  </a>
+  <MobileNavButton />
+  <ul class='hidden lg:flex ml-auto mr-10 items-center w-auto space-x-12'>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>About</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Company</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Services</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Testimonials</a></li>
+  </ul>
+  <a
+    class='hidden lg:block px-6 py-3 text-sm text-gray-500 hover:text-gray-900 font-bold border border-gray-200 hover:border-gray-300 rounded'
+    href='#'>Contact Us</a
+  >
+</nav>

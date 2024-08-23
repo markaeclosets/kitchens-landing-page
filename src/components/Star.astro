@@ -1,0 +1,44 @@
+<svg class="star" width="100" height="100" viewBox="0 0 100 100">
+  <g id="copy-1" class="group">
+    <g class="large">
+      <path id="large" d="M41.25,40 L42.5,10 L43.75,40 L45,41.25 L75,42.5 L45,43.75 L43.75,45 L42.5,75 L41.25,45 L40,43.75 L10,42.5 L40,41.25z" fill="currentColor" />
+    </g>
+    <use xlink:href="#large" class="large-2" transform="rotate(45)" />
+    <path class="small" d="M41.25,40 L42.5,25 L43.75,40 L45,41.25 L60,42.5 L45,43.75 L43.75,45 L42.5,60 L41.25,45 L40,43.75 L25,42.5 L40,41.25z" fill="currentColor" />
+  </g>
+</svg>
+
+
+<style>
+  .star {
+    position: absolute;
+    color: white;
+  }
+  .star:nth-child(1) { transform: translate(50%, 141%); }
+  .star--small { transform: translate(570%, 1210%); }
+  .star--medium { transform: translate(600%, 250%); }
+  .group { transform: translate(42.5px, 42.5px); }
+  path { transform: translate(-42.5px, -42.5px); }
+  .large, .large-2, .small { animation: 2.5s infinite; }
+  .large { animation-name: large; }
+  .large-2 { animation-name: large-2; }
+  .small { animation-name: small; }
+
+  @keyframes large {
+    0%, 100% { opacity: 0; transform: rotate(0deg) scale(0); }
+    50% { opacity: 1; }
+    100% { transform: rotate(360deg) scale(1.5); }
+  }
+
+  @keyframes large-2 {
+    0%, 100% { opacity: 0; transform: rotate(45deg) scale(0); }
+    50% { opacity: 1; }
+    100% { transform: rotate(405deg) scale(1.1); }
+  }
+
+  @keyframes small {
+    0%, 100% { opacity: 0; transform: rotate(0deg) scale(0); }
+    50% { opacity: 1; }
+    100% { transform: rotate(-360deg) scale(1.5); }
+  }
+</style>

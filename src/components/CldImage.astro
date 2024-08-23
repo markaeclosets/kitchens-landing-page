@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets'
+import { Cloudinary } from '@cloudinary/url-gen'
+import { Resize } from '@cloudinary/url-gen/actions/resize'
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'markae'
+  },
+  url: {
+    secure: true
+  }
+})
+
+interface Props {
+  public_id: string
+  alt: string
+  width?: string
+  height?: string
+  loading?: 'eager' | 'lazy' | null | undefined
+  class?: string
+  style?: object
+}
+
+const props = Astro.props as Props
+
+const regex = new RegExp('https://res.cloudinary.com/markae/image/upload/v[0-9]*')
+
+props.public_id = props.public_id.includes('https') ? props.public_id.replace(regex, '') : props.public_id
+
+const url =
+  props.width && props.height
+    ? cld.image(props.public_id).format('auto').quality('auto').resize(Resize.scale().width(props.width).height(props.height)).toURL()
+    : cld.image(props.public_id).format('auto').quality('auto').toURL()
+console.log(url)
+---
+
+<Image class={props.class} style={props.style} src={url} alt={props.alt} inferSize loading={props.loading} />
+
+<style>
+  img {
+    object-fit: cover;
+    width: 100%;
+  }
+</style>

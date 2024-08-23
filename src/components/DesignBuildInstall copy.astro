@@ -1,0 +1,32 @@
+---
+import CustomerReviews from './CustomerReviews.astro'
+---
+
+<div class='bg-zinc-50 full-width-bg'>
+  <div class='container px-4 mx-auto py-20'>
+    <div class='flex flex-wrap my-12'>
+      <div class='w-full p-4 text-center'>
+        <h1 class='font-heading text-zinc-100 text-5xl font-semibold mb-12 text-center tracking-wide'>
+          Design. <span class='text-primary'>Build.</span> Install.
+        </h1>
+        <p class='text-zinc-300 text-lg leading-7'>
+          For over three decades, our commitment to excellence has made us a trusted provider of custom cabinetry for homebuilders, developers, and
+          residential clientele across the Greater Toronto Area. Today, we continue to differentiate ourselves through superior customer service
+          alongside an experienced team, quality materials, and remarkably competitive pricing.
+        </p>
+      </div>
+    </div>
+    <!-- <CustomerReviews /> -->
+  </div>
+</div>
+
+<style>
+  .full-width-bg {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+</style>

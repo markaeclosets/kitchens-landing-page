@@ -1,0 +1,128 @@
+---
+// Sparkles.astro
+import { randomUUID } from 'crypto';
+
+interface Props {
+  color?: string;
+}
+
+const { color = '#FFC700' } = Astro.props;
+
+function random(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function generateSparkle(color: string) {
+  return {
+    id: randomUUID(),
+    color,
+    size: random(10, 20),
+    style: {
+      top: `${random(0, 100)}%`,
+      left: `${random(0, 100)}%`,
+    },
+  };
+}
+
+const initialSparkles = Array.from({ length: 3 }, () => generateSparkle(color));
+---
+
+<span
+  x-data={`{
+    sparkles: ${JSON.stringify(initialSparkles)},
+    color: '${color}',
+    addSparkle() {
+      const newSparkle = {
+        id: crypto.randomUUID(),
+        color: this.color,
+        size: Math.floor(Math.random() * (20 - 10)) + 10,
+        style: {
+          top: \`\${Math.floor(Math.random() * 100)}%\`,
+          left: \`\${Math.floor(Math.random() * 100)}%\`
+        }
+      };
+      this.sparkles.push(newSparkle);
+      setTimeout(() => {
+        this.sparkles = this.sparkles.filter(s => s.id !== newSparkle.id);
+      }, 700);
+    },
+    init() {
+      setInterval(() => this.addSparkle(), 1000);
+    }
+  }`}
+  class="wrapper"
+>
+  <template x-for="sparkle in sparkles" :key="sparkle.id">
+    <span
+      class="sparkle-wrapper"
+      :style="`top: ${sparkle.style.top}; left: ${sparkle.style.left};`"
+    >
+      <svg
+        class="sparkle"
+        :width="sparkle.size"
+        :height="sparkle.size"
+        viewBox="0 0 68 68"
+        fill="none"
+      >
+        <path
+          d="M26.5 25.5C19.0043 33.3697 0 34 0 34C0 34 19.1013 35.3684 26.5 43.5C33.234 50.901 34 68 34 68C34 68 36.9884 50.7065 44.5 43.5C51.6431 36.647 68 34 68 34C68 34 51.6947 32.0939 44.5 25.5C36.5605 18.2235 34 0 34 0C34 0 33.6591 17.9837 26.5 25.5Z"
+          :fill="sparkle.color"
+        />
+      </svg>
+    </span>
+  </template>
+  <strong class="child-wrapper">
+    <slot />
+  </strong>
+
+</span>
+
+<style>
+  .wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  .sparkle-wrapper {
+    position: absolute;
+    display: block;
+    animation: come-in-out 700ms forwards;
+  }
+  .sparkle {
+    display: block;
+    animation: spin 1000ms linear;
+  }
+  .child-wrapper {
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+  }
+  .debug-info {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+    white-space: pre-wrap;
+  }
+  @keyframes come-in-out {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(180deg);
+    }
+  }
+</style>

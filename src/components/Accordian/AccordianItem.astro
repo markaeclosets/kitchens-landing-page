@@ -1,0 +1,32 @@
+---
+const { index, heading, content } = Astro.props
+---
+
+<button class='group block text-left w-full px-6 pb-6 mb-8 border-b' x-data='{ accordion: false }' x-on:click='accordion = !accordion'>
+  <div class='relative flex items-center group'>
+    <span class='font-bold text-zinc-300 text-3xl mr-4 min-w-10'>{index}</span>
+    <div class='cursor-pointer inline-block text-2xl lg:text-3xl xl:text-2xl transition duration-200 group-hover:text-primary text-zinc-900'>
+      {heading}
+    </div>
+    <span :class="{'rotate-180': accordion}" class='ml-auto inline-block transform rotate-0'>
+      <svg width='25' height='25' viewbox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path
+          d='M18.8223 15.0312L12.4993 21.3542L6.17643 15.0313'
+          stroke='black'
+          stroke-width='1.61806'
+          stroke-miterlimit='10'
+          stroke-linecap='round'
+          stroke-linejoin='round'></path>
+        <path d='M12.5 3.646L12.5 21.1772' stroke='black' stroke-width='1.61806' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'
+        ></path>
+      </svg>
+    </span>
+  </div>
+  <div x-ref='container' :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''" class='overflow-hidden h-0 duration-500' style=''>
+    <div class='mt-6 pr-10'>
+      <p>
+        {content}
+      </p>
+    </div>
+  </div>
+</button>

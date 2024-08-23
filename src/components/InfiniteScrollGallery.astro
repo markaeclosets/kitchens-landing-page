@@ -1,0 +1,67 @@
+---
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="infinite-scroll-gallery-container">
+  <div class="infinite-scroll-gallery">
+    {images.map((image) => (
+      <img src={image} alt="Gallery image" class="gallery-image" />
+    ))}
+    {images.map((image) => (
+      <img src={image} alt="Gallery image" class="gallery-image" />
+    ))}
+  </div>
+</div>
+
+<style>
+  .infinite-scroll-gallery-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .infinite-scroll-gallery-container::before,
+  .infinite-scroll-gallery-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .infinite-scroll-gallery-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+  }
+
+  .infinite-scroll-gallery-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+  }
+
+  .infinite-scroll-gallery {
+    display: flex;
+    animation: scroll 30s linear infinite;
+  }
+
+  .gallery-image {
+    height: 400px;
+    width: auto;
+    margin-right: 20px;
+    border-radius: 10px;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>

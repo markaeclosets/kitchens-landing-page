@@ -1,0 +1,40 @@
+---
+import AccordianImagePreview from './Accordian/AccordianImagePreview.astro'
+import CldImage from './CldImage.astro'
+
+const items = [
+  {
+    heading: 'Satin White',
+    content:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.',
+    image: 'https://res.cloudinary.com/markae/image/upload/v1718733668/web/img1_tcxgyp.jpg'
+  },
+  {
+    heading: 'Wood Grain',
+    content:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.',
+    image: 'https://res.cloudinary.com/markae/image/upload/v1716929932/web/modern-kitchen-gold-hardware_iz0toe.png'
+  },
+  {
+    heading: 'High Gloss',
+    content:
+      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.',
+    image: 'https://res.cloudinary.com/markae/image/upload/v1718733668/web/img1_tcxgyp.jpg'
+  }
+]
+---
+
+
+<section class='overflow-hidden'>
+  <div class='container mx-auto px-4 py-12'>
+    <div class='mb-8'>
+      <h1 class='font-semibold text-3xl xs:text-8xl sm:text-10xl'>Melamine Finishes</h1>
+    </div>
+    <p class='text-zinc-500 text-lg leading-7 mt-8'>
+      We make it easy for you to design a beautiful kitchen without the decision-fatigue and second-guessing. Our selection of finishes are
+      designed to make your kitchen look and feel beautiful with a few simple choices. Choose from our curated selection of melamine finishes, door styles,
+      and hardware to create a kitchen that is uniquely yours.
+    </p>
+  </div>
+  <AccordianImagePreview id='finishes' reversed={true} items={items} />
+</section>
