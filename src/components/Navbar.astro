@@ -16,14 +16,43 @@ import MobileNavButton from './MobileNavButton.astro'
   </a>
   <MobileNavButton />
   <ul class='hidden lg:flex ml-auto mr-10 items-center w-auto space-x-12'>
-    <!-- <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>About</a></li> -->
-    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Company</a></li>
-    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Testimonials</a></li>
-    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Service Areas</a></li>
-    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#'>Gallery</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#company' data-scroll>Company</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#reviews' data-scroll>Testimonials</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#service-areas' data-scroll>Service Areas</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#gallery' data-scroll>Gallery</a></li>
   </ul>
   <a
     class='hidden lg:block px-6 py-3 text-sm text-gray-500 hover:text-gray-900 font-bold border border-gray-200 hover:border-gray-300 rounded'
-    href='#'>Contact Us</a
+    href='#contact'
+    data-scroll
+  >Contact Us</a
   >
 </nav>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script>
+  function handleSmoothScroll(e: Event) {
+    if (!e || !(e.currentTarget instanceof HTMLAnchorElement)) return;
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    if (!href) return;
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollLinks = document.querySelectorAll('a[data-scroll]');
+    scrollLinks.forEach(link => {
+      link.addEventListener('click', handleSmoothScroll);
+    });
+  });
+</script>
