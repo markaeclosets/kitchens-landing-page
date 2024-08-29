@@ -20,10 +20,28 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          package-manager: pnpm@latest # Specify pnpm as the package manager
+          version: 8 # Specify the pnpm version you're using in your project
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Specify the Node.js version you're using
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build site
+        run: pnpm run build # Adjust this if your build command is different
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist # Adjust this to your Astro output directory if different
 
   deploy:
     needs: build
