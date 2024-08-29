@@ -1,5 +1,6 @@
 ---
 import CldImage from './CldImage.astro'
+import MadeInCanada from './MadeInCanada.astro'
 ---
 
 <section class='py-12 md:py-20 bg-black w-screen flex justify-center'>
@@ -15,17 +16,37 @@ import CldImage from './CldImage.astro'
             width='287'
             loading={'eager'}
           />
+          <!-- <MadeInCanada /> -->
         </a>
       </div>
       <div class='w-full lg:w-8/12 xl:w-7/12 px-4'>
-        <ul class='flex flex-wrap -mb-2 items-center lg:justify-end'>
+        <div class="relative">
+          <div class="absolute -top-3 -left-8  -rotate-180">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-600">
+              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+              <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+            </svg>
+          </div>
+          <div class="text-zinc-600 text-5xl font-semibold ">People will stare. Make it worth their <span class="relative">while<div class="absolute -bottom-0 -right-10">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-600">
+              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+              <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+            </svg> -->
+          </div></span></div>
+          
+        </div>
+        <div class="text-zinc-600 text-2xl mt-4 italic">
+          - Harry Winston
+        </div>
+
+        <!-- <ul class='flex flex-wrap -mb-2 items-center lg:justify-end'>
           <li class='mb-2 mr-14'><a class='inline-block text-white hover:text-zinc-400' href='#'>Contact</a></li>
           <li class='mb-2 mr-14'><a class='inline-block text-white hover:text-zinc-400' href='#'>Blog</a></li>
           <li class='mb-2 mr-14'><a class='inline-block text-white hover:text-zinc-400' href='#'>Our Storry</a></li>
           <li class='mb-2 mr-14'><a class='inline-block text-white hover:text-zinc-400' href='#'>Careers</a></li>
           <li class='mb-2 mr-14'><a class='inline-block text-white hover:text-zinc-400' href='#'>Support</a></li>
           <li class='mb-2'><a class='inline-block text-white hover:text-zinc-400' href='#'>Guides</a></li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <div class='flex flex-wrap -mx-4 items-center'>
@@ -46,7 +67,7 @@ import CldImage from './CldImage.astro'
 
 <style>
   section {
-    background-image: url(/repeat.svg);
+    background-image: url(/repeat-lighter.svg);
     background-size: 297px;
   }
 </style>
