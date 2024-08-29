@@ -19,7 +19,7 @@ interface Props {
   height?: string
   loading?: 'eager' | 'lazy' | null | undefined
   class?: string
-  style?: object
+  style?: Record<string, string>
 }
 
 const props = Astro.props as Props

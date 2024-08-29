@@ -2,32 +2,33 @@
 import Map from "./Map.astro";
 ---
 
-<section class=' overflow-hidden full-width-bg relative'>
+<section class='overflow-hidden full-width-bg relative'>
     <div class='fade-overlay'></div>
     <div class='container mx-auto px-4'>
       <div class='flex flex-wrap'>
         <div class='w-full p-4 py-16 pb-24 z-50'>
           <div class="mb-16">
-            <h1 class='font-heading tracking-tight text-5xl md:text-5xl font-medium text-zinc-900 text-center '>Serving Communities Across The Greater Toronto Area</h1>
+            <h1 class='font-heading tracking-tight text-5xl md:text-5xl font-medium text-zinc-900 text-center'>Serving Communities Across The Greater Toronto Area</h1>
             <p class='mb-8 mt-4 text-xl text-zinc-500 fadeInUp text-center'>Our 8000 sqft facility is located in Vaughan, Ontario with a showroom open by appointment only.</p>
           </div>
-          <div class="mx-auto mt-8 grid grid-cols-4 gap-4 text-2xl text-zinc-600">
-            <div>Toronto</div>
-            <div>North York</div>
-            <div>Markham</div>
-            <div>Vaughan</div>
-            <div>Richmond Hill</div>
-            <div>Oakville</div>
-            <div>Etobicoke</div>
-            <div>King City</div>
-            <div>Aurora</div>
-            <div>Woodbridge</div>
-            <div>Milton</div>
-            <div>Mississauga</div>
-            <div>Brampton</div>
-            <div>Newmarket</div>
-            <div>Scarborough</div>
-            <div>...and more</div>
+          <div id="cityGrid" class="mx-auto mt-8 grid grid-cols-4 gap-4 text-2xl text-zinc-600">
+            <div class="city-item opacity-0">Toronto</div>
+            <div class="city-item opacity-0">North York</div>
+            <div class="city-item opacity-0">Markham</div>
+            <div class="city-item opacity-0">Vaughan</div>
+            <div class="city-item opacity-0">Richmond Hill</div>
+            <div class="city-item opacity-0">Oakville</div>
+            <div class="city-item opacity-0">Etobicoke</div>
+            <div class="city-item opacity-0">King City</div>
+            <div class="city-item opacity-0">Aurora</div>
+            <div class="city-item opacity-0">Woodbridge</div>
+            <div class="city-item opacity-0">Milton</div>
+            <div class="city-item opacity-0">Mississauga</div>
+            <div class="city-item opacity-0">Brampton</div>
+            <div class="city-item opacity-0">Newmarket</div>
+            <div class="city-item opacity-0">Scarborough</div>
+            <div class="city-item opacity-0">...and more</div>
+          </div>
         </div>
       </div>
       <Map />
@@ -45,4 +46,43 @@ import Map from "./Map.astro";
       pointer-events: none;
       z-index: 10;
     }
+
+    .city-item {
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      transform: translateY(20px);
+    }
+
+    .city-item.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
+
+  <script>
+    function animateCityItems() {
+      const cityGrid = document.getElementById('cityGrid');
+      if (!cityGrid) return;
+      
+      const cityItems = cityGrid.querySelectorAll('.city-item');
+
+      if (!cityGrid || !cityItems) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          let delay = 0;
+          cityItems.forEach((item) => {
+            setTimeout(() => {
+              item.classList.add('fade-in');
+            }, delay);
+            delay += 100; // Increase delay for each item
+          });
+          observer.unobserve(cityGrid);
+        }
+      }, { threshold: 0.1 });
+
+      observer.observe(cityGrid);
+    }
+
+    // Run the animation when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', animateCityItems);
+  </script>

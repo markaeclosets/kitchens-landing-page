@@ -1,6 +1,6 @@
 ---
 // Sparkles.astro
-import { randomUUID } from 'crypto';
+// import { randomUUID } from 'crypto';
 
 interface Props {
   color?: string;
@@ -14,7 +14,7 @@ function random(min: number, max: number) {
 
 function generateSparkle(color: string) {
   return {
-    id: randomUUID(),
+    id: random(1, 10000000),
     color,
     size: random(10, 20),
     style: {
@@ -33,7 +33,7 @@ const initialSparkles = Array.from({ length: 3 }, () => generateSparkle(color));
     color: '${color}',
     addSparkle() {
       const newSparkle = {
-        id: crypto.randomUUID(),
+        id: random(1, 10000000),
         color: this.color,
         size: Math.floor(Math.random() * (20 - 10)) + 10,
         style: {

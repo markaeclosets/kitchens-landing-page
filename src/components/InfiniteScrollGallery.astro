@@ -9,10 +9,10 @@ const { images } = Astro.props;
 <div class="infinite-scroll-gallery-container">
   <div class="infinite-scroll-gallery">
     {images.map((image) => (
-      <img src={image} alt="Gallery image" class="gallery-image" />
+      <img loading="lazy" src={image} alt="Gallery image" class="gallery-image" />
     ))}
     {images.map((image) => (
-      <img src={image} alt="Gallery image" class="gallery-image" />
+      <img loading="lazy" src={image} alt="Gallery image" class="gallery-image" />
     ))}
   </div>
 </div>

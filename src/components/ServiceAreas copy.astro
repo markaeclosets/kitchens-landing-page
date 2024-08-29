@@ -1,0 +1,48 @@
+---
+import Map from "./Map.astro";
+---
+
+<section class='overflow-hidden full-width-bg relative'>
+    <div class='fade-overlay'></div>
+    <div class='container mx-auto px-4'>
+      <div class='flex flex-wrap'>
+        <div class='w-full p-4 py-16 pb-24 z-50'>
+          <div class="mb-16">
+            <h1 class='font-heading tracking-tight text-5xl md:text-5xl font-medium text-zinc-900 text-center '>Serving Communities Across The Greater Toronto Area</h1>
+            <p class='mb-8 mt-4 text-xl text-zinc-500 fadeInUp text-center'>Our 8000 sqft facility is located in Vaughan, Ontario with a showroom open by appointment only.</p>
+          </div>
+          <div class="mx-auto mt-8 grid grid-cols-4 gap-4 text-2xl text-zinc-600">
+            <div>Toronto</div>
+            <div>North York</div>
+            <div>Markham</div>
+            <div>Vaughan</div>
+            <div>Richmond Hill</div>
+            <div>Oakville</div>
+            <div>Etobicoke</div>
+            <div>King City</div>
+            <div>Aurora</div>
+            <div>Woodbridge</div>
+            <div>Milton</div>
+            <div>Mississauga</div>
+            <div>Brampton</div>
+            <div>Newmarket</div>
+            <div>Scarborough</div>
+            <div>...and more</div>
+        </div>
+      </div>
+      <Map />
+    </div>
+  </section>
+
+  <style>
+    .fade-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
