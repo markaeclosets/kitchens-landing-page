@@ -6,16 +6,13 @@ import HeroSection from 'astro/components/HeroSection.astro'
 import CustomerReviews from 'astro/components/CustomerReviews.astro'
 import Contact from 'astro/components/Contact.astro'
 import Footer from 'astro/components/Footer.astro'
-import Styles from 'astro/components/MelamineFinishes.astro'
-import DoorStyles from 'astro/components/DoorStyles.astro'
-import Hardware from 'astro/components/Hardware.astro'
 import CTA from 'astro/components/CTA.astro'
 import BeautySimplicity from 'astro/components/BeautySimplicity.astro'
 import Gallery from 'astro/components/Gallery.astro'
 import LimitedTime from 'astro/components/LimitedTime.astro'
 import DreamKitchen from 'astro/components/DreamKitchen.astro'
 import ServiceAreas from 'astro/components/ServiceAreas.astro'
-import Map from 'astro/components/Map.astro'
+import UserAnalytics from '../components/UserAnalytics.astro'
 ---
 
 <Layout title='The Markae Advantage'>
@@ -25,6 +22,7 @@ import Map from 'astro/components/Map.astro'
       <div class='container px-4 mx-auto'>
         <Navbar />
         <HeroSection />
+        <UserAnalytics />
         <CTA />
         <CustomerReviews />
         <ServiceAreas />
