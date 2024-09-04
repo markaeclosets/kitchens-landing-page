@@ -4,14 +4,12 @@
     const parser = new UAParser();
     const uaData = parser.getResult();
     const payload = {
-      os: uaData.os,
-      browser: uaData.browser,
+      os: `${uaData.os?.name} ${uaData.os?.version}`,
+      browser: `${uaData.browser?.name} ${uaData.browser?.version}`,
       cpu: uaData.cpu,
-      device: uaData.device,
-      engine: uaData.engine
+      device: `${uaData.device?.type || ''} ${uaData.device?.vendor} ${uaData.device?.model}`,
+      engine: `${uaData.engine?.name} ${uaData.engine?.version}`
     };
-    console.log(payload)
-
     async function logVisit(ip) {
       console.log('Logging visit: ', ip)
       const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
@@ -25,10 +23,7 @@
       try {
         await fetch(url, {
           method: 'POST',
-          body,
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          body
         });
       } catch (error) {
         console.error('Error logging visit:', error);
@@ -54,10 +49,7 @@
           try {
             const response = await fetch(url, {
               method: 'POST',
-              body,
-              headers: {
-                'Content-Type': 'application/json'
-              }
+              body
             });
             const data = await response.json();
             console.log(data);
