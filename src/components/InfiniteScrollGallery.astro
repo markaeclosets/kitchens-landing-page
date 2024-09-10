@@ -1,6 +1,9 @@
 ---
 interface Props {
-  images: string[];
+  images: {
+    public_id: string;
+    alt: string;
+  }[];
 }
 
 const { images } = Astro.props;
@@ -9,13 +12,11 @@ const { images } = Astro.props;
 <div class="infinite-scroll-gallery-container">
   <div class="infinite-scroll-gallery">
     {images.map((image) => (
-      <img loading="lazy" src={image} alt="Gallery image" class="gallery-image" />
-    ))}
-    {images.map((image) => (
-      <img loading="lazy" src={image} alt="Gallery image" class="gallery-image" />
+      <img loading="lazy" src={`https://res.cloudinary.com/markae/image/upload/v1725997106/${image.public_id}`} alt="Gallery image" class="gallery-image" />
     ))}
   </div>
 </div>
+
 
 <style>
   .infinite-scroll-gallery-container {
@@ -46,7 +47,9 @@ const { images } = Astro.props;
 
   .infinite-scroll-gallery {
     display: flex;
-    animation: scroll 30s linear infinite;
+    width: max-content;
+    animation: scroll 100s linear infinite;
+    will-change: transform;
   }
 
   .gallery-image {
@@ -58,10 +61,10 @@ const { images } = Astro.props;
 
   @keyframes scroll {
     0% {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
     }
   }
 </style>

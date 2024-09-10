@@ -5,17 +5,112 @@ import Counter from "./Counter.astro";
 
 <div class="w-full rounded-xl bg-black p-6 sm:p-8 shadow-lg relative overflow-hidden full-width-bg flex justify-center items-center">
   <section class="container py-10">
-      <div class="z-10 flex flex-col sm:flex-row items-center justify-center gap-10">
-        <Counter />
-          <div class="text-center sm:text-left">
-            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Limited Time Offer!</h2>
-            <p class=" text-lg sm:text-xl" style="color: #c6b98b;">20% OFF + FREE DELIVERY & INSTALLATION</p>
-          </div>
-          <div class="ml-10">
-            <input type="text" placeholder="Enter your email" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold">
-            <a href="/contact" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold border-[3px] border-white ml-2">Get Discount</a>
-            <p class="text-zinc-500 text-sm mt-2">*Discount is valid for 3 months from the date of email submission</p>
-          </div>
-        </div>
+    <div class="z-10 flex flex-col sm:flex-row items-center justify-center gap-10">
+      <Counter />
+      <div class="text-center sm:text-left">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Limited Time Offer!</h2>
+        <p class="text-lg sm:text-xl" style="color: #c6b98b;">20% OFF + FREE DELIVERY & INSTALLATION</p>
+      </div>
+      <div class="ml-10">
+        <form id="emailForm-email" class="relative">
+          <input type="email" id="emailInput-email" placeholder="Enter your email" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold">
+          <button type="submit" id="submitButton-email" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold border-[3px] border-white ml-2">Get Discount</button>
+          <p class="text-zinc-500 text-sm mt-2">*Discount is valid for 3 months from the date of email submission</p>
+          <div id="successNotification-email" class="absolute top-full left-0 w-full mt-2 text-green-400 text-sm opacity-0 transition-opacity duration-300">Thank you! Your discount code has been sent to your email.</div>
+          <div id="errorNotification-email" class="absolute top-full left-0 w-full mt-2 text-red-400 text-sm opacity-0 transition-opacity duration-300">There was an error submitting your email. Please try again.</div>
+        </form>
+      </div>
+    </div>
   </section>
 </div>
+
+<script>
+  import UAParser from 'ua-parser-js';
+
+  function handleEmailSubmission() {
+    const form = document.getElementById('emailForm-email') as HTMLFormElement;
+    const emailInput = document.getElementById('emailInput-email') as HTMLInputElement;
+    const submitButton = document.getElementById('submitButton-email') as HTMLButtonElement;
+    const errorNotification = document.getElementById('errorNotification-email') as HTMLDivElement;
+    const successNotification = document.getElementById('successNotification-email') as HTMLDivElement;
+
+    if (!form || !emailInput || !submitButton || !errorNotification || !successNotification) return;
+
+    function showNotification(element: HTMLElement, message?: string) {
+      if (message) element.textContent = message;
+      element.classList.remove('opacity-0');
+      setTimeout(() => {
+        element.classList.add('opacity-0');
+      }, 5000);
+    }
+
+    function validateEmail(email: string): boolean {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = emailInput.value.trim();
+
+      if (!validateEmail(email)) {
+        showNotification(errorNotification, 'Please enter a valid email address.');
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<span class="animate-spin">↻</span> Sending...';
+
+      const parser = new UAParser();
+      const uaData = parser.getResult();
+
+      const payload = {
+        action: 'email_submission',
+        payload: {
+          email: email,
+        },
+        userAgent: {
+          os: `${uaData.os?.name} ${uaData.os?.version}`,
+          browser: `${uaData.browser?.name} ${uaData.browser?.version}`,
+          cpu: uaData.cpu,
+          device: `${uaData.device?.type || ''} ${uaData.device?.vendor} ${uaData.device?.model}`,
+          engine: `${uaData.engine?.name} ${uaData.engine?.version}`,
+          screen: `${window.innerWidth} x ${window.innerHeight}`
+        },
+        ip: window.markae?.ip || 'unknown',
+        path: window.location.pathname,
+        timeOnPage: window.markae?.getTimeOnPage() || 0
+      };
+
+      const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          showNotification(successNotification);
+          form.reset();
+        } else {
+          throw new Error('Email submission failed');
+        }
+      } catch (error) {
+        console.error('Error submitting email:', error);
+        showNotification(errorNotification, 'There was an error submitting your email. Please try again.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Get Discount';
+      }
+    });
+  }
+
+  // Initialize email submission handler when the DOM is fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', handleEmailSubmission);
+  } else {
+    handleEmailSubmission();
+  }
+</script>

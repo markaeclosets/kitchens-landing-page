@@ -1,10 +1,18 @@
 ---
+import NavbarAlt from "astro/components/NavbarAlt.astro";
+import Layout from "../layouts/Layout.astro";
+import Footer from "astro/components/Footer.astro";
+
 const companyName = "Markae Closets and Design";
 const effectiveDate = "January 20, 2024";
 ---
 
-<div class="bg-white py-8 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-5xl mx-auto">
+<Layout title='The Markae Advantage - Terms and Conditions'>
+    <main>
+  <div class='container px-4 mx-auto'>
+    <NavbarAlt />
+  <div class="my-10">
+    <div class="mx-auto">
     <h1 class="text-3xl font-bold mb-6">Terms & Conditions</h1>
     <p class="text-sm text-gray-500 mb-6">Effective Date: {effectiveDate}</p>
 
@@ -116,3 +124,7 @@ const effectiveDate = "January 20, 2024";
     </div>
   </div>
 </div>
+</div>
+<Footer />
+</main>
+</Layout>

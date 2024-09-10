@@ -1,12 +1,19 @@
 ---
+import Footer from "astro/components/Footer.astro";
+import Navbar from "astro/components/NavbarAlt.astro";
+import Layout from '../layouts/Layout.astro'
+
 const companyName = "Markae Closets and Design";
 const websiteUrl = "https://markaeclosets.com";
 const email = "sales@markaeclosets.com";
 const lastUpdated = new Date().toLocaleDateString('en-CA');
 ---
-
-<div class="bg-white py-8 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-5xl mx-auto">
+<Layout title='The Markae Advantage - Privacy Policy'>
+  <main>
+<div class='container px-4 mx-auto'>
+  <Navbar />
+<div class="my-10">
+  <div class="mx-auto">
     <h1 class="text-3xl font-bold mb-6">Privacy Policy</h1>
     <p class="text-sm text-gray-500 mb-6">Last updated: {lastUpdated}</p>
 
@@ -94,4 +101,8 @@ const lastUpdated = new Date().toLocaleDateString('en-CA');
       </address>
     </section>
   </div>
+  </div>
 </div>
+<Footer />
+</main>
+</Layout>

@@ -11,7 +11,7 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
         <TrustIndexWidgetSmall />
       </div>
       <form id="contactForm" action='#' class="relative" novalidate>
-        <div class='max-w-2xl'>
+        <div class='max-w-2xl relative'>
           <div class='flex flex-wrap -m-4 mb-3'>
             <div class='w-full sm:w-1/2 p-4'>
               <label for='contact-name' class='block mb-3 text-sm font-medium tracking-tight'>Your name</label>
@@ -46,7 +46,7 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
           <button
             type='submit'
             id="submitButton"
-            class='bg-black h-16 rounded-xl text-white px-12 py-4 inline-flex items-center justify-center gap-2 hover:bg-black/80 focus:bg-black/80 transition-all duration-500'
+            class='bg-black h-16 rounded-xl text-white px-12 py-4 inline-flex items-center justify-center gap-2 hover:bg-black/80  transition-all duration-500'
           >
             <span class='!text-white font-bold tracking-tight'>Send Message</span>
             <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
@@ -58,8 +58,10 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
                 stroke-linejoin='round'></path>
             </svg>
           </button>
-          <div id="successNotification" class="mt-4 text-black text-lg font-medium border border-black p-4 rounded-xl bg-zinc-200 hidden">Thank you! We have received your message and will get back to you soon.</div>
-          <div id="errorNotification" class="mt-4 text-black text-lg border border-red-800 p-4 rounded-xl bg-red-200 hidden">There was an error submitting the form. Please try again.</div>
+          <div class="">
+            <div id="successNotification" class="absolute -bottom-20 left-0 w-full mt-4 text-black font-medium border border-black p-4 rounded-xl bg-zinc-200 opacity-0 transition-opacity duration-300">Thank you! We have received your message and will get back to you soon.</div>
+            <div id="errorNotification" class="absolute -bottom-20 left-0 w-full mt-4 text-black border border-red-800 p-4 rounded-xl bg-red-200 opacity-0 transition-opacity duration-300">There was an error submitting the form. Please try again.</div>
+          </div>
         </div>
       </form>
     </div>
@@ -75,7 +77,10 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
   // Add this type declaration at the top of your script
   declare global {
     interface Window {
-      markae?: { ip: string };
+      markae?: { 
+        ip: string;
+        getTimeOnPage: () => number;
+      };
     }
   }
 
@@ -86,19 +91,21 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
     const successNotification = document.getElementById('successNotification') as HTMLDivElement;
     if (!form || !submitButton || !errorNotification || !successNotification) return;
 
-    successNotification.classList.add('hidden');
-    errorNotification.classList.add('hidden');
+    successNotification.classList.add('opacity-0');
+    errorNotification.classList.add('opacity-0');
 
     function showErrorNotification(message: string) {
       errorNotification.textContent = message;
-      errorNotification.classList.remove('hidden');
+      errorNotification.classList.remove('opacity-0');
       setTimeout(() => {
-        errorNotification.classList.add('hidden');
+        errorNotification.classList.add('opacity-0');
       }, 5000);
     }
 
     function showSuccessNotification() {
-      successNotification.classList.remove('hidden');
+      successNotification.classList.remove('opacity-0')
+      // hide button
+      submitButton.style.display = 'none';
     }
 
     function validateForm() {
@@ -132,6 +139,10 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // browser width and height
+      const browserWidth = window.innerWidth;
+      const browserHeight = window.innerHeight;
+      
       // Custom form validation
       if (!validateForm()) {
         return;
@@ -149,15 +160,18 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
 
       const payload = {
         action: 'form_submission',
-        formData: formValues,
+        payload: formValues,
         userAgent: {
           os: `${uaData.os?.name} ${uaData.os?.version}`,
           browser: `${uaData.browser?.name} ${uaData.browser?.version}`,
           cpu: uaData.cpu,
           device: `${uaData.device?.type || ''} ${uaData.device?.vendor} ${uaData.device?.model}`,
-          engine: `${uaData.engine?.name} ${uaData.engine?.version}`
+          engine: `${uaData.engine?.name} ${uaData.engine?.version}`,
+          screen: `${browserWidth} x ${browserHeight}`
         },
         ip: window.markae?.ip || 'unknown',
+        path: window.location.pathname,
+        timeOnPage: window.markae?.getTimeOnPage() || 0
       };
 
       const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
@@ -169,7 +183,7 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
         });
 
         if (response.ok) {
-          showSuccessNotification('Form submitted successfully!');
+          showSuccessNotification();
           form.reset();
         } else {
           throw new Error('Form submission failed');

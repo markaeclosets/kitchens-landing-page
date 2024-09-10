@@ -1,0 +1,52 @@
+---
+import CldImage from './CldImage.astro'
+import MobileNavButton from './MobileNavButton.astro'
+---
+
+<nav class='flex justify-between items-center py-8 px-60 shadow-md full-width-bg'>
+  <a class='text-gray-600 text-2xl leading-none' href='#'>
+    <CldImage
+      class='invert pt-4 fadeInUp-animation'
+      public_id='web/markae-closets-white-logo_yuzdeg'
+      alt='Astro Logo'
+      height='60'
+      width='287'
+      loading={'eager'}
+    />
+  </a>
+  <MobileNavButton />
+  <ul class='hidden lg:flex ml-auto mr-10 items-center w-auto space-x-12'>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='/kitchens-landing-page/#company'>Company</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='/kitchens-landing-page/#reviews'>Testimonials</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='/kitchens-landing-page/#service-areas'>Service Areas</a></li>
+    <li><a class='text-sm text-gray-500 hover:text-gray-900' href='/kitchens-landing-page/#gallery'>Gallery</a></li>
+  </ul>
+</nav>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script>
+  function handleSmoothScroll(e: Event) {
+    if (!e || !(e.currentTarget instanceof HTMLAnchorElement)) return;
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    if (!href) return;
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollLinks = document.querySelectorAll('a[data-scroll]');
+    scrollLinks.forEach(link => {
+      link.addEventListener('click', handleSmoothScroll);
+    });
+  });
+</script>
