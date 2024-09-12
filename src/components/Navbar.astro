@@ -1,20 +1,16 @@
 ---
 import CldImage from './CldImage.astro'
-import MobileNavButton from './MobileNavButton.astro'
 ---
 
 <nav class='flex justify-between items-center py-8'>
   <a class='text-gray-600 text-2xl leading-none' href='#'>
     <CldImage
-      class='invert pt-4 fadeInUp-animation'
+      class='invert sm:pt-4 w-60 sm:w-auto'
       public_id='web/markae-closets-white-logo_yuzdeg'
       alt='Astro Logo'
-      height='60'
-      width='287'
       loading={'eager'}
     />
   </a>
-  <MobileNavButton />
   <ul class='hidden lg:flex ml-auto mr-10 items-center w-auto space-x-12'>
     <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#company' data-scroll>Company</a></li>
     <li><a class='text-sm text-gray-500 hover:text-gray-900' href='#reviews' data-scroll>Testimonials</a></li>

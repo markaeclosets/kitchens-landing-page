@@ -1,0 +1,179 @@
+---
+interface Props {
+  images: {
+    public_id: string;
+    alt: string;
+  }[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="infinite-scroll-gallery-container">
+  <div class="infinite-scroll-gallery" id="mobile-gallery">
+    {images.map((image) => (
+      <div class="image-wrapper">
+        <div class="image-container">
+          <img loading="lazy" src={`https://res.cloudinary.com/markae/image/upload/v1725997106/${image.public_id}`} alt={image.alt} class="gallery-image" />
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="dot-indicators">
+    {images.map((_, index) => (
+      <div class="dot" data-index={index}></div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .infinite-scroll-gallery-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .infinite-scroll-gallery {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .infinite-scroll-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image-wrapper {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
+
+  .image-container {
+    width: 350px;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dot-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .dot.active {
+    background-color: #333;
+  }
+</style>
+
+<script>
+  function initializeGallery() {
+    const gallery = document.querySelector('.infinite-scroll-gallery');
+    const dots = document.querySelectorAll('.dot');
+    let startX;
+    let isDragging = false;
+    let targetIndex = 0;
+    let increment = 1
+
+    let imageCount = dots.length
+    console.log({ imageCount })
+
+    function handleTouchStart(e) {
+      startX = e.touches[0].pageX - gallery.offsetLeft;
+      isDragging = true;
+    }
+
+    function handleTouchMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.touches[0].pageX - gallery.offsetLeft;
+      const walk = (x - startX)
+      console.log({ x, startX, walk })
+      if (walk < 0) {
+        increment = 1
+      } else {
+        increment = -1
+      }
+      gallery.scrollLeft -= walk;
+      startX = x;
+    }
+
+    function handleTouchEnd() {
+      isDragging = false;
+      const imageWidth = gallery.offsetWidth;
+      const scrollPosition = gallery.scrollLeft;
+      console.log(scrollPosition);
+      targetIndex = targetIndex + increment
+      console.log({ targetIndex })
+      if (targetIndex >= imageCount) {
+        targetIndex = imageCount - 1
+      } else if (targetIndex < 0) {
+        targetIndex = 0
+      }
+      const left = targetIndex * imageWidth
+      console.log({ left })
+      gallery.scrollTo({
+        left: left,
+        behavior: 'smooth'
+      });
+    }
+
+    function updateDots() {
+      const imageWidth = gallery.offsetWidth;
+      const currentIndex = Math.round(gallery.scrollLeft / imageWidth);
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function addEventListeners() {
+      gallery.addEventListener('touchstart', handleTouchStart, { passive: false });
+      gallery.addEventListener('touchmove', handleTouchMove, { passive: false });
+      gallery.addEventListener('touchend', handleTouchEnd);
+      gallery.addEventListener('scroll', updateDots, { passive: true });
+    }
+
+    function removeEventListeners() {
+      gallery.removeEventListener('touchstart', handleTouchStart);
+      gallery.removeEventListener('touchmove', handleTouchMove);
+      gallery.removeEventListener('touchend', handleTouchEnd);
+      gallery.removeEventListener('scroll', updateDots);
+    }
+
+    addEventListeners();
+    updateDots(); // Initial update
+
+    // Return cleanup function
+    return removeEventListeners;
+  }
+
+  const cleanup = initializeGallery();
+
+  // Cleanup when the component is destroyed (if applicable in your setup)
+  // document.addEventListener('astro:unmount', cleanup);
+</script>

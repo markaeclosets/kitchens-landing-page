@@ -3,23 +3,16 @@ let i = 0
 ---
 
 <div
-  class='ti-widget'
+  class='ti-widget sm:mt-9 mt-7'
   data-layout-id='27'
   data-set-id='drop-shadow'
-  data-pid='2edd94f317a01265072687533ee'
-  data-rich-snippet='99f4a5186602gac6'
-  data-language='en'
-  data-no-translation='true'
-  data-pager-inited='true'
-  style=''
 >
   <div class='ti-widget-container'>
     <div class='ti-header source-Google'>
       <div class='ti-mob-row'>
-        <span class='ti-stars'
-          ><span class='ti-star f'></span><span class='ti-star f'></span><span class='ti-star f'></span><span class='ti-star f'></span><span
-            class='ti-star f'></span></span
-        >
+        <span class='ti-stars'>
+          <span class='ti-star f'></span><span class='ti-star f'></span><span class='ti-star f'></span><span class='ti-star f'></span><span class='ti-star f'></span>
+        </span>
       </div>
       <div class='ti-mob-row'>
         <a href="#reviews"><span class='nowrap'><strong>276 reviews</strong> on</span></a>
@@ -206,6 +199,10 @@ let i = 0
       U+2215, U+FEFF, U+FFFD;
   }
 
+  .ti-header-rating-text.ti-mobile {
+    flex: auto !important;
+  }
+
   .ti-widget .source-Google .ti-review-header:after {
     background-image: url('https://cdn.trustindex.io/assets/platform/Google/icon.svg');
     background-size: 100% 100%;
@@ -291,11 +288,8 @@ let i = 0
     border-style: solid;
     border-color: #ffffff;
     border-radius: 4px;
-    margin-top: 20px;
     transition: all 0.3s ease-in-out;
     text-align: center;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
     color: #000000;
     -ms-flex-pack: center !important;
     justify-content: center !important;

@@ -6,21 +6,27 @@ import Sparkles from "./Sparkle.astro";
 ---
 
 
-<section id="company" class="py-20 mt-36 my-20 bg-zinc-950 flex items-center justify-center  text-zinc-200 full-width-bg">
+<section id="company" class="sm:py-20 sm:mt-36 sm:my-20 my-12 bg-zinc-950 flex items-center justify-center  text-zinc-200 full-width-bg">
   <div>
     <div class="container px-4 mx-auto">
         <div class='w-full p-4 text-center'>
-            <h1 class='font-heading text-zinc-400 text-5xl font-semibold mb-12 text-center tracking-wide shimmer'>
-              <!-- <span class='text-white brightness-150'>Design.</span> <span class='text-zinc-200 brightness-90'>Build.</span> <span class='text-zinc-400 brightness-70'>Install.</span> -->
-              Design. Build. Install.
-              
+            <h1 class='font-heading text-zinc-400 text-3xl sm:text-5xl font-semibold sm:mb-12 my-8 sm:my-0 text-center tracking-wide shimmer'>
+              Design. Build. Install.          
             </h1>
             <!-- <Sparkles color="#FFC700">
               <h1></h1>
             </Sparkles> -->
-            <p class='text-zinc-400 brightness-110 text-xl leading-7 '>
+            <p class='hidden md:block text-zinc-400 brightness-110 sm:text-xl !leading-7 font-medium sm:font-normal'>
               For over three decades, our commitment to excellence has made us a trusted provider of custom cabinetry for homebuilders, developers, and
               residential clientele across the Greater Toronto Area. Today, we continue to differentiate ourselves through superior customer service
+              alongside an experienced team, quality materials, and remarkably competitive pricing.
+            </p>
+            <p class='block md:hidden text-zinc-400 brightness-110 sm:text-xl !leading-7 font-medium sm:font-normal'>
+              For over three decades, our commitment to excellence has made us a trusted provider of custom cabinetry for homebuilders, developers, and
+              residential clientele across the Greater Toronto Area.
+              <br>
+              <br>
+              Today, we continue to differentiate ourselves through superior customer service
               alongside an experienced team, quality materials, and remarkably competitive pricing.
             </p>
           </div>

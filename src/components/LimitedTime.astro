@@ -3,20 +3,23 @@ import Counter from "./Counter.astro";
 
 ---
 
-<div class="w-full rounded-xl bg-black p-6 sm:p-8 shadow-lg relative overflow-hidden full-width-bg flex justify-center items-center">
+<div class="w-full bg-black p-4 sm:p-8 shadow-lg relative overflow-hidden full-width-bg flex justify-center items-center">
   <section class="container py-10">
     <div class="z-10 flex flex-col sm:flex-row items-center justify-center gap-10">
       <Counter />
-      <div class="text-center sm:text-left">
+      <div class="text-center sm:text-left sm:border-none border-[3px] border-zinc-200 border-dashed rounded-lg p-4 sm:p-8">
         <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Limited Time Offer!</h2>
-        <p class="text-lg sm:text-xl" style="color: #c6b98b;">20% OFF + FREE DELIVERY & INSTALLATION</p>
+        <p class="text-lg sm:text-xl font-bold sm:font-medium" style="color: #c6b98b;">20% OFF + FREE DELIVERY & INSTALLATION</p>
       </div>
-      <div class="ml-10">
+      <div class="2xl:ml-10">
         <form id="emailForm-email" class="relative">
-          <input type="email" id="emailInput-email" placeholder="Enter your email" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold">
-          <button type="submit" id="submitButton-email" class="bg-white text-black px-6 py-2.5 rounded-lg font-bold border-[3px] border-white ml-2">Get Discount</button>
+
+          <div class="flex items-center space-x-1">
+            <input type="email" id="emailInput-email" placeholder="Enter your email" class="bg-white text-black px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium sm:font-bold">
+            <button type="submit" id="submitButton-email" class="bg-white text-black px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold border-[2px] sm:border-[3px] border-white text-sm sm:text-base sm:ml-2"><span class="hidden sm:block">Get </span>Discount</button>
+          </div>
           <p class="text-zinc-500 text-sm mt-2">*Discount is valid for 3 months from the date of email submission</p>
-          <div id="successNotification-email" class="absolute top-full left-0 w-full mt-2 text-green-400 text-sm opacity-0 transition-opacity duration-300">Thank you! Your discount code has been sent to your email.</div>
+          <div id="successNotification-email" class="absolute top-full left-0 w-full mt-2 text-green-400 text-sm opacity-0 transition-opacity duration-300">Thank you! Your discount has been sent to your email.</div>
           <div id="errorNotification-email" class="absolute top-full left-0 w-full mt-2 text-red-400 text-sm opacity-0 transition-opacity duration-300">There was an error submitting your email. Please try again.</div>
         </form>
       </div>
@@ -36,14 +39,20 @@ import Counter from "./Counter.astro";
 
     if (!form || !emailInput || !submitButton || !errorNotification || !successNotification) return;
 
-    function showNotification(element: HTMLElement, message?: string) {
-      if (message) element.textContent = message;
-      element.classList.remove('opacity-0');
-      setTimeout(() => {
-        element.classList.add('opacity-0');
-      }, 5000);
+    // Hide notifications initially
+    hideNotifications();
+
+    function hideNotifications() {
+      errorNotification.classList.add('opacity-0');
+      successNotification.classList.add('opacity-0');
     }
 
+    function showNotification(element: HTMLElement, message?: string) {
+      hideNotifications(); // Hide all notifications first
+      if (message) element.textContent = message;
+      element.classList.remove('opacity-0');
+    }
+    
     function validateEmail(email: string): boolean {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
@@ -51,6 +60,8 @@ import Counter from "./Counter.astro";
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      hideNotifications(); // Hide notifications on new submission
       
       const email = emailInput.value.trim();
 
@@ -60,7 +71,7 @@ import Counter from "./Counter.astro";
       }
 
       submitButton.disabled = true;
-      submitButton.innerHTML = '<span class="animate-spin">↻</span> Sending...';
+      submitButton.innerHTML = '<span class="spin-animation">↻</span> Sending..';
 
       const parser = new UAParser();
       const uaData = parser.getResult();
@@ -102,7 +113,7 @@ import Counter from "./Counter.astro";
         showNotification(errorNotification, 'There was an error submitting your email. Please try again.');
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = 'Get Discount';
+        submitButton.innerHTML = '<span class="hidden sm:block">Get </span>Discount'
       }
     });
   }
@@ -114,3 +125,17 @@ import Counter from "./Counter.astro";
     handleEmailSubmission();
   }
 </script>
+<style>
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .spin-animation {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+</style>

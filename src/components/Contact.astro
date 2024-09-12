@@ -1,29 +1,29 @@
 ---
 import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
 ---
-<section id="contact" class='py-32'>
+<section id="contact" class='sm:py-32 py-12 pb-4 sm:pb-0'>
   <div class='flex flex-wrap -m-4'>
     <div class='w-full lg:w-1/2 p-4'>
-      <p class='tracking-tight text-gray-600 mb-4 uppercase'>Contact us</p>
+      <p class='tracking-tight text-gray-600 sm:mb-4 mb-2 uppercase'>Contact us</p>
       <h1 class='font-heading tracking-tight text-5xl md:text-6xl font-medium '>Get In Touch</h1>
-      <p class=' mt-4 text-xl text-zinc-500 max-w-xl fadeInUp'>Join an ever growing community of 1000+ happy customers.</p>
-      <div class="mb-8">
+      <p class='mt-4 text-xl text-zinc-500 max-w-xl fadeInUp'>Join an ever growing community of 1000+ happy customers.</p>
+      <div class="mb-8 -mt-2 sm:mt-0">
         <TrustIndexWidgetSmall />
       </div>
       <form id="contactForm" action='#' class="relative" novalidate>
         <div class='max-w-2xl relative'>
-          <div class='flex flex-wrap -m-4 mb-3'>
-            <div class='w-full sm:w-1/2 p-4'>
-              <label for='contact-name' class='block mb-3 text-sm font-medium tracking-tight'>Your name</label>
+          <div class='flex flex-wrap -m-4 mb-2'>
+            <div class='w-full sm:w-1/2 p-4 sm:mt-0 -mt-2'>
+              <label for='contact-name' class='block mb-3 text-sm font-medium tracking-tight'>Name</label>
               <input
                 type='text'
                 id='contact-name'
                 name='name'
-                class='w-full px-6 py-4 rounded-xl border border-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-primary/35 outline-none transition duration-200'
+                class='w-full px-6 py-4 drop-shadow rounded-xl border border-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-primary/35 outline-none transition duration-200'
                 placeholder='John Smith'
               />
             </div>
-            <div class='w-full sm:w-1/2 p-4'>
+            <div class='w-full sm:w-1/2 p-4 sm:mt-0 -mt-2'>
               <label for='contact-email' class='block mb-3 text-sm font-medium tracking-tight'>Email</label>
               <input
                 type='email'
@@ -40,13 +40,13 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
             id='contact-message'
             name='message'
             rows='5'
-            class='w-full  px-6 py-4 rounded-xl resize-none border border-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-primary/35 outline-none transition duration-200'
+            class='w-full h-36 sm:h-auto px-6 py-4 rounded-xl resize-none border border-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-primary/35 outline-none transition duration-200'
             placeholder='Write your message'></textarea>
-            <div class="text-sm mb-4 text-zinc-600">Act now to get 20% off your first order over $5000</div>
+            <div class="hidden sm:block text-sm mb-4 text-zinc-600">Act now to get 20% off your first order over $5000</div>
           <button
             type='submit'
             id="submitButton"
-            class='bg-black h-16 rounded-xl text-white px-12 py-4 inline-flex items-center justify-center gap-2 hover:bg-black/80  transition-all duration-500'
+            class='bg-black h-16 mt-2 sm:mt-0 w-full sm:w-auto rounded-xl text-white px-12 py-4 inline-flex items-center justify-center gap-2 hover:bg-black/80  transition-all duration-500'
           >
             <span class='!text-white font-bold tracking-tight'>Send Message</span>
             <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
@@ -58,14 +58,14 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
                 stroke-linejoin='round'></path>
             </svg>
           </button>
-          <div class="">
-            <div id="successNotification" class="absolute -bottom-20 left-0 w-full mt-4 text-black font-medium border border-black p-4 rounded-xl bg-zinc-200 opacity-0 transition-opacity duration-300">Thank you! We have received your message and will get back to you soon.</div>
-            <div id="errorNotification" class="absolute -bottom-20 left-0 w-full mt-4 text-black border border-red-800 p-4 rounded-xl bg-red-200 opacity-0 transition-opacity duration-300">There was an error submitting the form. Please try again.</div>
+          <div class="py-1 sm:py-0">
+            <div id="successNotification" class="z-50 hidden sm:block left-0 w-full sm:mt-4 text-black font-medium border border-black p-4 rounded-xl bg-zinc-200 opacity-0 transition-opacity duration-300">Thank you! We have received your message and will get back to you soon.</div>
+            <div id="errorNotification" class="z-50 hidden sm:block left-0 w-full sm:mt-4 text-black border border-red-800 p-4 rounded-xl bg-red-200 opacity-0 transition-opacity duration-300">There was an error submitting the form. Please try again.</div>
           </div>
         </div>
       </form>
     </div>
-    <div class='w-full lg:w-1/2 p-4 flex justify-center items-center'>
+    <div class='hidden sm:block w-full lg:w-1/2 p-4 flex justify-center items-center'>
       <img class='rounded-2xl w-full object-cover' style='height:600px;width:600px' src='/kitchens-landing-page/family.jpg' alt='' />
     </div>
   </div>
@@ -84,6 +84,30 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
     }
   }
 
+  async function submitForm(payload: any, retryCount = 0): Promise<Response> {
+    const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError' && retryCount === 0) {
+        console.log('Request timed out. Retrying...');
+        return submitForm(payload, 1);
+      }
+      throw error;
+    }
+  }
+
   function handleFormSubmission() {
     const form = document.getElementById('contactForm') as HTMLFormElement;
     const submitButton = document.getElementById('submitButton') as HTMLButtonElement;
@@ -91,19 +115,19 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
     const successNotification = document.getElementById('successNotification') as HTMLDivElement;
     if (!form || !submitButton || !errorNotification || !successNotification) return;
 
-    successNotification.classList.add('opacity-0');
-    errorNotification.classList.add('opacity-0');
+    successNotification.classList.add('opacity-0', 'hidden');
+    errorNotification.classList.add('opacity-0', 'hidden');
 
     function showErrorNotification(message: string) {
       errorNotification.textContent = message;
-      errorNotification.classList.remove('opacity-0');
+      errorNotification.classList.remove('opacity-0', 'hidden');
       setTimeout(() => {
-        errorNotification.classList.add('opacity-0');
+        errorNotification.classList.add('opacity-0', 'hidden');
       }, 5000);
     }
 
     function showSuccessNotification() {
-      successNotification.classList.remove('opacity-0')
+      successNotification.classList.remove('opacity-0', 'hidden');
       // hide button
       submitButton.style.display = 'none';
     }
@@ -116,7 +140,7 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
 
       // Validate name
       if (nameInput.value.trim() === '') {
-        errorMessage += 'Name is required. ';
+        errorMessage += `Please enter your name. We'd love to get to know you better!`;
         showErrorNotification(errorMessage.trim());
         return false;
       }
@@ -174,13 +198,8 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
         timeOnPage: window.markae?.getTimeOnPage() || 0
       };
 
-      const url = 'https://script.google.com/macros/s/AKfycbw0vKHik1Ccbgr9RN1lqDXkzLgrSROlMUYMSnFK8cskCJkZNZheWEqt5o9WMiS5v_fVmw/exec';
-
       try {
-        const response = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const response = await submitForm(payload);
 
         if (response.ok) {
           showSuccessNotification();
@@ -206,3 +225,10 @@ import TrustIndexWidgetSmall from "./TrustIndexWidgetSmall.astro";
     handleFormSubmission();
   }
 </script>
+
+<style>
+input:-webkit-autofill, input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+</style>

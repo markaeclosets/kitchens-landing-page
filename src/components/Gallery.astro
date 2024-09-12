@@ -1,5 +1,6 @@
 ---
 import InfiniteScrollGallery from "./InfiniteScrollGallery.astro"
+import InfiniteScrollGalleryMobile from "./InfiniteScrollGalleryMobile.astro"
 
 const images = [
 {
@@ -29,6 +30,6 @@ const images = [
 ]
 ---
 
-<section class="py-20 bg-white">
-    <InfiniteScrollGallery images={images} />
+<section class="sm:py-20 bg-white">
+    <InfiniteScrollGalleryMobile images={images} />
   </section>

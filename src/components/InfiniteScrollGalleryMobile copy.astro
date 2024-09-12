@@ -1,0 +1,209 @@
+---
+interface Props {
+  images: {
+    public_id: string;
+    alt: string;
+  }[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="infinite-scroll-gallery-container">
+  <div class="infinite-scroll-gallery" id="mobile-gallery">
+    {images.map((image) => (
+      <div class="image-wrapper">
+        <div class="image-container">
+          <img loading="lazy" src={`https://res.cloudinary.com/markae/image/upload/v1725997106/${image.public_id}`} alt={image.alt} class="gallery-image" />
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="dot-indicators">
+    {images.map((_, index) => (
+      <div class="dot" data-index={index}></div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .infinite-scroll-gallery-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .infinite-scroll-gallery {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .infinite-scroll-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image-wrapper {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
+
+  .image-container {
+    width: 350px;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dot-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .dot.active {
+    background-color: #333;
+  }
+</style>
+
+<script>
+  function initializeGallery() {
+    const gallery = document.querySelector('.infinite-scroll-gallery');
+    const dots = document.querySelectorAll('.dot');
+    let startX;
+    let scrollLeft;
+    let isDragging = false;
+    let startTime;
+    let startScrollLeft;
+
+        function handleTouchStart(e) {
+      startX = e.touches[0].pageX - gallery.offsetLeft;
+      isDragging = true;
+    }
+
+    function handleTouchMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.touches[0].pageX - gallery.offsetLeft;
+      const walk = x - startX;
+      gallery.scrollLeft -= walk;
+      startX = x;
+    }
+
+    function handleTouchEnd() {
+      isDragging = false;
+      const imageWidth = gallery.offsetWidth;
+      const scrollPosition = gallery.scrollLeft;
+      const targetIndex = Math.round(scrollPosition / imageWidth);
+      gallery.scrollTo({
+        left: targetIndex * imageWidth,
+        behavior: 'smooth'
+      });
+    }
+
+    // function handleTouchStart(e) {
+    //   startX = e.touches[0].pageX;
+    //   scrollLeft = gallery.scrollLeft;
+    //   isDragging = true;
+    //   startTime = new Date().getTime();
+    //   startScrollLeft = gallery.scrollLeft;
+    // }
+
+    // function handleTouchMove(e) {
+    //   if (!isDragging) return;
+    //   const x = e.touches[0].pageX;
+    //   const walk = (startX - x) * 1.5; // Reduced sensitivity multiplier
+    //   gallery.scrollLeft = scrollLeft + walk;
+    //   e.preventDefault();
+    // }
+
+    // function handleTouchEnd(e) {
+    //   isDragging = false;
+    //   const endTime = new Date().getTime();
+    //   const timeElapsed = endTime - startTime;
+    //   const distance = gallery.scrollLeft - startScrollLeft;
+    //   const velocity = Math.abs(distance) / timeElapsed;
+
+    //   if (velocity > 0.5) { // Adjust this threshold as needed
+    //     const direction = distance > 0 ? 1 : -1;
+    //     const targetIndex = Math.round(gallery.scrollLeft / gallery.offsetWidth) + direction;
+    //     smoothScrollTo(targetIndex * gallery.offsetWidth);
+    //   } else {
+    //     snapToNearestImage();
+    //   }
+    // }
+
+    function smoothScrollTo(targetLeft) {
+      gallery.scrollTo({
+        left: targetLeft,
+        behavior: 'smooth'
+      });
+      setTimeout(updateDots, 300); // Update dots after scrolling animation
+    }
+
+    function snapToNearestImage() {
+      const imageWidth = gallery.offsetWidth;
+      const targetIndex = Math.round(gallery.scrollLeft / imageWidth);
+      smoothScrollTo(targetIndex * imageWidth);
+    }
+
+    function updateDots() {
+      const imageWidth = gallery.offsetWidth;
+      const currentIndex = Math.round(gallery.scrollLeft / imageWidth);
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function addEventListeners() {
+      gallery.addEventListener('touchstart', handleTouchStart, { passive: false });
+      gallery.addEventListener('touchmove', handleTouchMove, { passive: false });
+      gallery.addEventListener('touchend', handleTouchEnd);
+      gallery.addEventListener('scroll', updateDots, { passive: true });
+    }
+
+    function removeEventListeners() {
+      gallery.removeEventListener('touchstart', handleTouchStart);
+      gallery.removeEventListener('touchmove', handleTouchMove);
+      gallery.removeEventListener('touchend', handleTouchEnd);
+      gallery.removeEventListener('scroll', updateDots);
+    }
+
+    addEventListeners();
+    updateDots(); // Initial update
+
+    // Return cleanup function
+    return removeEventListeners;
+  }
+
+  const cleanup = initializeGallery();
+
+  // Cleanup when the component is destroyed (if applicable in your setup)
+  // document.addEventListener('astro:unmount', cleanup);
+</script>

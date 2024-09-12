@@ -43,11 +43,24 @@ const { title } = Astro.props
       Courier New,
       monospace;
   }
-  .ti-header-content.ti-active,
-.ti-platform-tab-items {
-  justify-content: center;
-  background-color: white
-}
+
+
+  @media (min-width: 768px) {
+    .ti-header-content.ti-active,
+    .ti-platform-tab-items {
+      justify-content: center;
+      background-color: white;
+    }
+  }
+  @media (max-width: 767px) {
+    .ti-widget-header .ti-platform-tabs .ti-tab-item {
+      padding: 0 14px !important;
+    }
+  }
+
+  .ti-tab-item.source-all .ti-rating {
+    display: none !important;
+  }
 
 .ti-widget-header, .ti-platform-tab-nav {
   background-color: white !important;
@@ -55,6 +68,15 @@ const { title } = Astro.props
 }
 
 .ti-widget[data-layout-id='79'][data-set-id='light-background'] .ti-widget-header .ti-platform-tabs:after {
+  display: none !important;
+}
+
+.ti-widget[data-layout-id='79'][data-set-id='light-background'] .ti-widget-container.ti-col-1 .ti-widget-header .ti-header-content .ti-header-rating-text.ti-mobile {
+  flex: auto !important;
+  margin-bottom: 0 !important;
+}
+
+.ti-platform-tab-nav {
   display: none !important;
 }
 
