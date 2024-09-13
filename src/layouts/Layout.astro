@@ -10,11 +10,19 @@ const { title } = Astro.props
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
-    <meta name='description' content='Astro description' />
-    <meta name='viewport' content='width=device-width' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='description' content='Custom kitchen cabinetry in the Greater Toronto Area. High-quality, affordable melamine & thermofoil cabinets for your dream kitchen.' />
+    <meta name='keywords' content='kitchen cabinets, custom cabinetry, Toronto, GTA, affordable, melamine, thermofoil' />
+    <meta name='robots' content='index, follow' />
+    <link rel='canonical' href='https://markaeclosets.com' />
     <link rel='icon' type='image/png' href='/kitchens-landing-page/favicon.png' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
+    <meta property="og:title" content="Markae Closets" />
+    <meta property="og:description" content="Custom kitchen cabinetry in the Greater Toronto Area. High-quality, affordable melamine & thermofoil cabinets for your dream kitchen." />
+    <meta property="og:image" content="https://res.cloudinary.com/dxxwcbyzx/image/upload/v1716233333/web/modern-kitchen-gold-hardware_iz0toe.jpg" />
+    <meta property="og:url" content="https://markaeclosets.com" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <slot />
@@ -104,3 +112,21 @@ const { title } = Astro.props
   color: #000
 }
 </style>
+
+<!-- TODO: Update with correct phone number -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Markae Closets",
+  "description": "Custom kitchen cabinetry provider in the Greater Toronto Area",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Vaughan",
+    "addressRegion": "Ontario",
+    "addressCountry": "CA"
+  },
+  "telephone": "+1-xxx-xxx-xxxx",
+  "url": "https://yourdomain.com"
+}
+</script>
