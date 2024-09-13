@@ -93,9 +93,9 @@ const { images } = Astro.props;
 
 <script>
   function initializeGallery() {
-    const gallery = document.querySelector('.infinite-scroll-gallery');
+    const gallery = document.querySelector('.infinite-scroll-gallery') as HTMLElement | null;
     const dots = document.querySelectorAll('.dot');
-    let startX;
+    let startX: number | null = null;
     let isDragging = false;
     let targetIndex = 0;
     let increment = 1
@@ -103,13 +103,15 @@ const { images } = Astro.props;
     let imageCount = dots.length
     console.log({ imageCount })
 
-    function handleTouchStart(e) {
-      startX = e.touches[0].pageX - gallery.offsetLeft;
-      isDragging = true;
+    function handleTouchStart(e: TouchEvent) {
+      if (gallery) {
+        startX = e.touches[0].pageX - gallery.offsetLeft;
+        isDragging = true;
+      }
     }
 
-    function handleTouchMove(e) {
-      if (!isDragging) return;
+    function handleTouchMove(e: TouchEvent) {
+      if (!isDragging || !gallery || !startX) return;
       e.preventDefault();
       const x = e.touches[0].pageX - gallery.offsetLeft;
       const walk = (x - startX)
@@ -125,6 +127,7 @@ const { images } = Astro.props;
 
     function handleTouchEnd() {
       isDragging = false;
+      if (!gallery) return;
       const imageWidth = gallery.offsetWidth;
       const scrollPosition = gallery.scrollLeft;
       console.log(scrollPosition);
@@ -144,6 +147,7 @@ const { images } = Astro.props;
     }
 
     function updateDots() {
+      if (!gallery) return;
       const imageWidth = gallery.offsetWidth;
       const currentIndex = Math.round(gallery.scrollLeft / imageWidth);
       dots.forEach((dot, index) => {
@@ -152,6 +156,7 @@ const { images } = Astro.props;
     }
 
     function addEventListeners() {
+      if (!gallery) return;
       gallery.addEventListener('touchstart', handleTouchStart, { passive: false });
       gallery.addEventListener('touchmove', handleTouchMove, { passive: false });
       gallery.addEventListener('touchend', handleTouchEnd);
@@ -159,6 +164,7 @@ const { images } = Astro.props;
     }
 
     function removeEventListeners() {
+      if (!gallery) return;
       gallery.removeEventListener('touchstart', handleTouchStart);
       gallery.removeEventListener('touchmove', handleTouchMove);
       gallery.removeEventListener('touchend', handleTouchEnd);

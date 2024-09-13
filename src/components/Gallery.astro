@@ -31,5 +31,10 @@ const images = [
 ---
 
 <section class="sm:py-20 bg-white">
-    <InfiniteScrollGalleryMobile images={images} />
+    <div class="sm:hidden">
+      <InfiniteScrollGalleryMobile images={images} />
+    </div>
+    <div class="hidden sm:block">
+      <InfiniteScrollGallery images={images} />
+    </div>
   </section>
