@@ -16,25 +16,64 @@ import UserAnalytics from '../components/UserAnalytics.astro'
 import ContactEmailBanner from 'astro/components/ContactEmailBanner.astro'
 ---
 
-<Layout title='The Markae Advantage'>
-  <main class='h-[2000px]'>
+<Layout title='The Markae Advantage | Custom Kitchen Cabinetry'>
+  <main>
     <Banner />
-    <section>
-      <div class='container px-4 mx-auto'>
-        <Navbar />
-        <HeroSection />
-        <UserAnalytics />
-        <CTA />
-        <CustomerReviews />
-        <ServiceAreas />
-        <LimitedTime />
-        <BeautySimplicity />
-        <Gallery />
-        <DreamKitchen />
-        <Contact />
-        <ContactEmailBanner />
-      </div>
-      <Footer />
-    </section>
+    <header>
+      <Navbar />
+    </header>
+    <HeroSection />
+    <UserAnalytics />
+    <CTA />
+    <CustomerReviews />
+    <ServiceAreas />
+    <LimitedTime />
+    <BeautySimplicity />
+    <Gallery />
+    <DreamKitchen />
+    <Contact />
+    <ContactEmailBanner />
+    <Footer />
   </main>
+  
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Markae Closets",
+      "image": "https://kitchens.markaeclosets.com/logo.jpg",
+      "@id": "https://kitchens.markaeclosets.com/",
+      "url": "https://kitchens.markaeclosets.com/",
+      "telephone": "+14161234567",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Main St",
+        "addressLocality": "Vaughan",
+        "addressRegion": "ON",
+        "postalCode": "L4K 1A1",
+        "addressCountry": "CA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.7962,
+        "longitude": -79.5244
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "17:00"
+      },
+      "sameAs": [
+        "https://www.facebook.com/markaeclosets",
+        "https://www.instagram.com/markaeclosets"
+      ]
+    }
+  </script>
 </Layout>

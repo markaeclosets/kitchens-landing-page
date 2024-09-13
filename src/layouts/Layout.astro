@@ -13,6 +13,7 @@ const { title } = Astro.props
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='description' content='Custom kitchen cabinetry in the Greater Toronto Area. High-quality, affordable melamine & thermofoil cabinets for your dream kitchen.' />
     <meta name='keywords' content='kitchen cabinets, custom cabinetry, Toronto, GTA, affordable, melamine, thermofoil' />
+    <meta name='author' content='Markae Closets' />
     <meta name='robots' content='index, follow' />
     <link rel='canonical' href='https://markaeclosets.com' />
     <link rel='icon' type='image/png' href='/kitchens-landing-page/favicon.png' />
@@ -22,7 +23,14 @@ const { title } = Astro.props
     <meta property="og:description" content="Custom kitchen cabinetry in the Greater Toronto Area. High-quality, affordable melamine & thermofoil cabinets for your dream kitchen." />
     <meta property="og:image" content="https://res.cloudinary.com/dxxwcbyzx/image/upload/v1716233333/web/modern-kitchen-gold-hardware_iz0toe.jpg" />
     <meta property="og:url" content="https://markaeclosets.com" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={title}>
+<meta name="twitter:description" content="Custom kitchen cabinetry in the Greater Toronto Area. Quality craftsmanship with over 35 years of expertise.">
+<meta name="twitter:image" content="https://res.cloudinary.com/dxxwcbyzx/image/upload/v1716233333/web/modern-kitchen-gold-hardware_iz0toe.jpg">
+        
+    <!-- Canonical URL -->
+    <link rel="canonical" href={Astro.url}>
   </head>
   <body>
     <slot />

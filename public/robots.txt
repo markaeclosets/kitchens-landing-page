@@ -11,5 +11,5 @@ Allow: /kitchens-landing-page/
 # Sitemap location
 Sitemap: https://kitchens.markaeclosets.com/sitemap.xml
 
-# Crawl-delay directive (optional, adjust as needed)
-Crawl-delay: 10
+# Remove or adjust Crawl-delay as needed
+# Crawl-delay: 10
